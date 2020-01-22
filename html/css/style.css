@@ -1,0 +1,158 @@
+/* *{
+    margin: 0;
+    padding: 0;
+} */
+html { scroll-behavior: smooth; }
+body { 
+        margin: 4%;
+        padding: 0;
+        font-size: 16px; 
+      }
+h2 { padding-top: 0px; }
+a { text-decoration:none }
+a:hover  { text-decoration: underline }
+a:visited { color: #0000EE; }
+.topbar { margin-bottom: 60px;}
+.social-icons {
+    right: 14px;
+    bottom: 35px;
+    color: #000;
+    font-size:12px;
+    position:fixed;
+}
+
+.console { 
+    border: 1px solid #dfe1e5;
+    background-color: #f0f0f0;
+    padding: 4px;
+    font-family: sans-serif;
+    font-size: inherit;
+    white-space: pre-wrap;
+    border-radius: 10px;
+}
+
+.relative{
+    position: relative;
+    padding-top: 30px;
+    height: 0;
+    padding-bottom: 56.25%;
+    margin: 40px 10px;
+}
+.relative iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* 
+.left의 가상태그가 원하는 모양으로 안끝나서
+.last를 따로 만듦. - clear: both; 면 같아야 할 것 같은데.
+*/
+.left {
+    float: left;
+    margin-right: 16px;
+}
+
+.left::before,.left::after{
+    display: table;
+    clear: both;
+    table-layout: fixed;
+    content: "";
+}
+
+.last {
+    clear: both;
+}
+
+.social-icons ul li {
+    list-style: none;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.social-icons ul li a {
+    color: #999;
+    border-radius: 50%;
+    border: 1px solid #999;
+    padding: 5px;
+    display: block;
+}
+
+.forkImg {
+    /* position: absolute; */
+    position:fixed;
+    top: 0;
+    right: 0;
+    border: 0;
+}
+
+.go-btn {
+    height: 30px;
+    width: 30px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    background-image: linear-gradient(#999, #000000), radial-gradient(circle at top left, #af8dab, #19d7f8);
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    margin: 17px;
+    left: 0;
+    bottom: 0;
+    position: fixed; 
+    text-align: center;
+}
+.go-top .fa{
+    padding: 9px 0;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn{
+    width: 200px;
+    height: 60px;
+    line-height: 60px;
+    background: none;
+    border: 4px solid;
+    color: #3498db;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    position: relative;
+}
+
+.btn::before,.btn::after{
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 4px;
+    background-color: #353b48;
+    transform: skew(50deg);
+    transition: .4s linear;
+}
+
+.btn::before{
+    top: -4px;
+    left: 10%;
+}
+
+.btn::after{
+    bottom: -4px;
+    right: 10%;
+}
+
+.btn:hover::before{
+    left: 80%;
+}
+
+.btn:hover::after{
+    right: 80%;
+}
+.solid td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
