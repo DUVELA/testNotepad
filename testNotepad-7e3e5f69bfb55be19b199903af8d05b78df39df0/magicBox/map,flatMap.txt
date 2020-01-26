@@ -1,0 +1,15 @@
+map, flatMap가 하나로 뚝딱! 하는거로 기억했는데 책을 다시보니 그런 방법? 으..&#9749;  
+╰(ㅇㅅㅇ)つ──☆*:・ﾟdef map[B](f: A => B): Gen[B]
+                   def flatMap[B](f: A => Gen[B]): Gen[B]
+으로 Option[A] 이나 Either[A, B] 등등 에서도 쓸 수 있는?? 1개로 정해지지 않은? 그런거? 라고 생각하고 넘어가려고 함.
+
+// ex?
+trait Option[A] {
+    def map[B](f: A => B): Option[B]
+    def flatMap[B](f: A => Option[B]): Option[B]
+    def getOrElse[B >: A](default: => B): B
+    def orElse[B >: A](ob: Option[B]): Option[B]
+    def filter(f: A => Boolean): Option[A]
+}
+
+음... html에서 하던게 안먹히네.

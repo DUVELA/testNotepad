@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/style.css">
+  
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="width: 600px;"> 
+        <h2><a href="https://youtu.be/t8trTCTpm_U">Nightcore One Minute Krewella 720p HD</a></h2>
+        유튜브 이외에 재생이 안되는 영상들이 있긴 하다.
+        /* html 파일경로로 열었을 때 안되던 영상이 있었는데 localhost에서 영상재생이 되는 걸 확인했다.*/
+        <div class="relative">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/t8trTCTpm_U" frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+
+    <div class="left">
+        <h1>트위치 방송 페이지</h1>
+        <a href="https://dev.twitch.tv/docs/embed/video-and-clips">html twitch로 검색</a>
+        <script src="https://player.twitch.tv/js/embed/v1.js"></script>
+            <div id="bobross"></div>
+            <script type="text/javascript">
+            var options = {
+                height: 500,
+                width: 740,
+                channel: "bobross", // <- 여기에 보고싶은 방송의 ID를 넣어준다. (https://www.twitch.tv/ID)
+            };
+            var player = new Twitch.Player("bobross", options);
+        player.setVolume(0.5);
+        </script>
+    </div>
+    <div class="" style="padding-top: 107px;">
+    <iframe frameborder="0" 
+        scrolling="no"
+        id="chat_embed"
+        src="https://www.twitch.tv/embed/bobross/chat"
+        height="500"
+        width="350">
+    </iframe>
+    </div>
+</body>
+</html>
