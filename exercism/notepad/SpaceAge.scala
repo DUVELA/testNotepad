@@ -24,6 +24,6 @@ object SpaceAge {
     def onNeptune(x: Double) = x / ddt()("Neptune")
     /* ====== back story end */
 
-    def ddt(acc: Double = onSecEarthTime)(y: String) = onSecEarthTime * howOldRU(y)
+    def ddt(acc: Double = onSecEarthTime)(y: String) = acc * howOldRU(y)
     // y = () => ???
 }
