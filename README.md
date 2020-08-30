@@ -4,7 +4,8 @@ mkdir html\scalajs<br>
 &emsp;&emsp;&emsp;&emsp;&emsp;\d2\crafting <br>
 &emsp;&emsp;&emsp;&emsp;&emsp;\img
 
-The magicBox(or redBook) was imitated by <a href="https://github.com/fpinscala/fpinscala"><strong>fpinScala.</strong></a>
+The magicBox(or redBook) was imitated by <a href="https://github.com/fpinscala/fpinscala"><strong>fpinScala</strong></a>, 
+<a href="https://wrobstory.gitbooks.io/python-to-scala/content/classes/README.html"><strong>wrobstory</strong></a>.
 
 <pre>2020-01-22
 How do I Undo github(or git)?
