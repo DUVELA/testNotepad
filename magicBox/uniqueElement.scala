@@ -13,7 +13,7 @@ object Hello {
     }
 
 
-/* faile start
+/* fail start
   def testDdt(rf: List[Int])(acc:List[Int]): List[Int] = rf match {
         case x :: xs if(!acc.contains(x)) => testDdt(xs)(x :: acc)
         case x :: xs => testDdt(xs)(acc.filter(i => acc.indexOf(i) == acc.lastIndexOf(i)))
@@ -25,5 +25,5 @@ object Hello {
         if(rf.filter(i => rf.indexOf(i) == rf.lastIndexOf(i)) != List()) rf.filter(i => rf.indexOf(i) == rf.lastIndexOf(i))
         else testDdt(r)(List())
     }
-faile end*/
+fail end*/
 }
