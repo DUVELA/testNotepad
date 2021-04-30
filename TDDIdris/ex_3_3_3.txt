@@ -1,0 +1,60 @@
+import Data.Vect
+
+tMat_rhs_1 : Vect n (Vect 0 elem)
+tMat_rhs_1 = replicate _ []
+
+transposeMat : Vect m (Vect n elem) -> Vect n (Vect m elem)
+transposeMat [] = tMat_rhs_1
+transposeMat (x :: xs) = let xsTrans = transposeMat xs in
+							zipWith (::) x xsTrans
+
+addMatrix : Num a => Vect n (Vect m a) -> Vect n (Vect m a) -> Vect n (Vect m a)
+addMatrix xs [] = xs
+addMatrix (x :: xs) (y :: ys) = zipWith (+) x y :: addMatrix xs ys
+
+-- multMatrix_rhs_1 : Num a => (ys : Vect n (Vect 0 a)) -> Vect n (Vect p a)
+-- multMatrix_rhs_1 [] = []
+-- multMatrix_rhs_1 (x :: xs) = replicate _ 0 :: multMatrix_rhs_1 xs
+
+multMatrix_rhs_1 : Num a => (ys : Vect m (Vect p a)) -> Vect 0 (Vect p a)
+multMatrix_rhs_1 [] = []
+multMatrix_rhs_1 (x :: xs) = []
+
+multMatrix : Num a => Vect n (Vect m a) -> Vect m (Vect p a) -> Vect n (Vect p a)
+multMatrix [] ys = multMatrix_rhs_1 ys
+multMatrix (x :: xs) ys = matVectMult x ys :: multMatrix xs ys
+	where
+		matMult : Num a => Vect p a -> Vect p a -> Vect p a
+		matMult xs ys = zipWith (*) xs ys
+
+		matVectMult : Num a =>  Vect m a -> Vect m (Vect p a) -> Vect p a
+		matVectMult xs ys = map sum (map(matMult xs) (transposeMat ys))
+
+
+testCase1 : Vect a Nat -> Vect a Nat -> Vect a Nat
+testCase1 xs ys = zipWith (*) xs ys
+{-
+Vect m a = [1, 2]
+Vect m (Vect p a) = [[7, 8 ,9 ,10], [11, 12, 13, 14]]
+Vect p (Vect m a) = [[]]
+:let sample1 : Num a => Vect 2 a; sample1 = [1, 2]
+:let sampleVect1 : Num a => Vect 2 (Vect 4 a); sampleVect1 = [[7, 8 ,9 ,10], [11, 12, 13, 14]]
+:let matMult : Num a => Vect p a -> Vect p a -> Vect p a; matMult xs ys = zipWith (*) xs ys
+:let matVectMult : Num a =>  Vect m a -> Vect m (Vect p a) -> Vect p a; matVectMult xs ys = map (sum) (map(matMult xs) (transposeMat ys))
+ Vect n (Vect m a) -> Vect m (Vect p a) -> Vect n (Vect p a)
+ [3, 2]  [2, 4] -> [3, 4]
+	[4, 2]
+-}
+--  testTrase: Vect 0 elem -> Vect p elem
+--  testTrase xs = ?testTrase_rhs1
+
+
+{- 
+testMult1 : Num a => Vect n (Vect m a) -> Vect n (Vect m a) -> Vect n (Vect m a)
+testMult1 xs [] = []
+testMult1 (x :: xs) (y :: ys) = zipWith (*) x y :: testMult1 xs ys
+-}
+
+
+
+-- multMatrix : Num a => Vect n (Vect m a) -> Vect m (Vect p a) -> Vect n (Vect p a)
