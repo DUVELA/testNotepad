@@ -1,0 +1,65 @@
+import Data.Primitives.Views
+
+data InfList : Type -> Type where
+    (::) : (value : elem) -> Inf (InfList elem) -> InfList elem
+%name InfList xs, ys, zs
+
+data Face = Heads | Tails
+    
+
+{- 1 start -}
+every_other : Stream Integer -> Stream Integer
+every_other (value :: values) = 2 * value :: every_other values
+{- 1 end -}
+{- 2 start -}
+Functor InfList where
+    map func (value :: xs) = func value :: map func xs
+
+countFrom : Integer -> InfList Integer
+countFrom x = x :: Delay (countFrom (x + 1))
+
+getPrefix : (count : Nat) -> InfList a -> List a
+getPrefix Z xs = []
+getPrefix (S k) (value :: xs) = value :: getPrefix k xs
+{- 2 end -}
+{- 3 start -}
+randoms: Int -> Stream Int
+randoms seed = let seed' = 1664525 * seed + 1013904223 in
+                  (seed' `shiftR` 2) :: randoms seed'
+                  
+arithInputs : Int -> Stream Int
+arithInputs seed = map bound (randoms seed)
+                    where
+                        bound : Int -> Int
+                        bound num with (divides num 12)
+                          bound ((12 * div) + rem) | (DivBy prf) = rem + 1
+                          
+getFace : Int -> Face
+getFace x = if (mod x 2) == 0 then Heads
+            else Tails
+
+{-
+getFace : Int -> Face
+getFace x = case mod x 2 of
+                 0 => Heads
+                 1 => Tails  -- 1 이나 _ 나.
+ -}
+
+coinFlips : (count : Nat) -> Stream Int -> List Face
+coinFlips Z (value :: xs) = []
+coinFlips (S k) (value :: xs) = getFace value :: coinFlips k xs
+
+{- 3 end -}
+{-
+*.\ex_11_1> map (getFace) [1..10]
+[getFace 1,
+ getFace 2,
+ getFace 3,
+ getFace 4,
+ getFace 5,
+ getFace 6,
+ getFace 7,
+ getFace 8,
+ getFace 9,
+ getFace 10] : List Face
+-}
