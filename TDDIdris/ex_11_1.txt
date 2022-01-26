@@ -34,9 +34,13 @@ arithInputs seed = map bound (randoms seed)
                         bound num with (divides num 12)
                           bound ((12 * div) + rem) | (DivBy prf) = rem + 1
                           
+total
 getFace : Int -> Face
-getFace x = if (mod x 2) == 0 then Heads
-            else Tails
+getFace x  with (divides x 2)
+  getFace ((2 * div) + rem)  | (DivBy prf) 
+        = case rem of
+               0 => Heads
+               _ => Tails
 
 {-
 getFace : Int -> Face
@@ -50,7 +54,8 @@ coinFlips Z (value :: xs) = []
 coinFlips (S k) (value :: xs) = getFace value :: coinFlips k xs
 
 {- 3 end -}
-{-
+
+{- mod를 한 것.
 *.\ex_11_1> map (getFace) [1..10]
 [getFace 1,
  getFace 2,
@@ -63,3 +68,35 @@ coinFlips (S k) (value :: xs) = getFace value :: coinFlips k xs
  getFace 9,
  getFace 10] : List Face
 -}
+{- 4 ~ 5 start -}
+next : (number : Double) -> (approx : Double) -> Double
+next number approx = (approx + (number / approx)) / 2
+
+square_root_approx : (number : Double) -> (approx : Double) -> Stream Double
+square_root_approx number approx = approx :: square_root_approx number (next number approx)
+
+total
+square_root_bound : (max : Nat) -> (number : Double) -> (bound : Double) -> (approxs: Stream Double) -> Double
+square_root_bound Z number bound (x :: xs) = x
+square_root_bound (S k) number bound (x :: xs) = 
+                  case compare (abs (x * x - number)) bound of
+                       LT => x
+                       EQ => square_root_bound k number bound xs
+                       GT => square_root_bound k number bound xs
+
+
+square_root : (number : Double) -> Double
+square_root number = square_root_bound 100 number 0.00000000001 (square_root_approx number number)
+{- 4 ~ 5 end -}
+{-
+square_root_approx : (nuber : Double) -> (approx : Double) -> Stream Double
+square_root_approx number approx
+    = let next = (approx + (number /approx)) 2 in
+          approx :: square_root_approx number next
+
+square_root_bound (S k) number bound (x :: xs) =
+    if (abs (x * x) - number) < bound)
+        then x
+        else square_root_bound k number bound xs
+
+ -}
