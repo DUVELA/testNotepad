@@ -39,7 +39,7 @@ def sqrt(x: Double) = {
 }
 */
 
-/** chatGPT
+/** 
 def factorial(n: Int): Int = {
     @annotation.tailrec
     def loop(n: Int, acc: Int): Int = {
