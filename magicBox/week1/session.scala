@@ -14,6 +14,11 @@ object session extends App {
         
         sqrtIter(1.0, x)
     }
+    def gcd(a: Int, b: Int): Int = 
+        if (b == 0) a else gcd(b, a % b)
+
+    def factorial(n: Int): Int = 
+        if (n == 0) 1 else n * factorial(n - 1)
     
 }
 /** 
@@ -31,5 +36,16 @@ def sqrt(x: Double) = {
         (guess + x / guess) / 2
     
     sqrtIter(1.0)
+}
+*/
+
+/**
+def factorial(n: Int): Int = {
+    @annotation.tailrec
+    def loop(n: Int, acc: Int): Int = {
+        if (n == 0) acc
+        else loop(n - 1, n * acc)
+    }
+    loop(n, 1)
 }
 */
