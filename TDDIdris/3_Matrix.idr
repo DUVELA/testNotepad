@@ -37,5 +37,5 @@ multMatrix : Num a => {n: _} -> {m: _} -> {z: _} -> Vect m (Vect n a) -> Vect n 
 multMatrix [] _ = []
 multMatrix (row :: rows) cols = newRow :: multMatrix rows cols
   where 
-    newCols = transpose cols
+    newCols = transposeMat cols
     newRow = map (dot row) newCols
