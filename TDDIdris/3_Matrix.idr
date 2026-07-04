@@ -39,3 +39,30 @@ multMatrix (row :: rows) cols = newRow :: multMatrix rows cols
   where 
     newCols = transposeMat cols
     newRow = map (dot row) newCols
+{-copilot 답변
+multMatrix [] _ = []는 “재귀가 종료된다”는 뜻인데, 
+그게 단순히 멈춘다는 의미만 있는 게 아니라 앞에서 이미 계산된 결과들을 반환하면서 종료한다는 거야.
+multMatrix [[1,2],[3,4]] B
+│
+├─ newRow = map (dot [1,2]) (transpose B)
+│   ├─ dot [1,2] [5,7] = 19
+│   └─ dot [1,2] [6,8] = 22
+│   → newRow = [19,22]
+│
+└─ multMatrix [[3,4]] B
+    │
+    ├─ newRow = map (dot [3,4]) (transpose B)
+    │   ├─ dot [3,4] [5,7] = 43
+    │   └─ dot [3,4] [6,8] = 50
+    │   → newRow = [43,50]
+    │
+    └─ multMatrix [] B
+        → []
+[ [19,22] :: [ [43,50] :: [] ] ]
+= [ [19,22], [43,50] ]
+
+행렬 곱셈은 "앞 행렬의 행 × 뒤 행렬의 열"이 기본 규칙.
+- 하지만 코드에서 행렬은 "행들의 리스트"로만 표현돼 있어서 열을 직접 꺼내기 어렵다.
+- 그래서 transposeMat을 써서 뒤 행렬의 열을 행처럼 바꿔주고, 내적 계산을 쉽게 한다.
+- 즉, newCols = transposeMat cols는 행렬 곱셈을 가능하게 만드는 핵심 준비 단계야.
+-}
