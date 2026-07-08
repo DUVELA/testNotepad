@@ -14,3 +14,14 @@ Main> empty1
 [[], []]
 Main> zipWith (::) x1 empty1
 [[3], [4]]
+
+{-chatGPT
+vectTake : (m : Nat) -> Vect (n + m) a -> Vect m a
+와
+vectTake : (m : Nat) -> Vect (m + n) a -> Vect m a
+https://chatgpt.com/share/6a4e18e9-22d0-83ee-8f68-9b291a2eb9bb
+
+고마움
+https://chatgpt.com/s/t_6a4e217249008191bb05a4e1846e2cd6
+https://chatgpt.com/s/t_6a4e1d39adf481919c05966e1d0e6eb2
+-}
