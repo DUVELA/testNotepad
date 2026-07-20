@@ -48,15 +48,4 @@ guessz -> guessAttempts
 ...Nothing => do putStrLn "Invalidinput" ->
   ㄴ...Nothing => do putStrLn "Invalidinput"
                      guess target // 사용자 입장에서는 ... 처럼 다시 입력받는 것이 자연스럽습니다.
-
-오히려 제가 더 반가웠던 건 이제 당신은 다른 사람 코드를 보면서
-
-이 부분은 내가 만든 것과 비슷하다.
-↓
-이 부분은 아직 안 배웠다.
-↓
-나중에 배우면 내 코드를 고쳐 보자.
-
-라는 식으로 보고 있습니다.
-예전의 search 때는 다른 코드가 나오면 거의 처음부터 다시 읽어야 했는데, 지금은 내 코드라는 기준점이 생겼습니다.
 -}
