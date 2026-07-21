@@ -42,6 +42,15 @@ main = do
 (O)남음: random number between 1 and 100 and then calls guess. 다음엔 1 부터 100 중 임의의 숫자 만들기.
 +현재 시도 횟수 보여주기.
 
+cast에 대해.
+"결과 타입을 누가 알려 주느냐?"
+입니다.
+REPL에서는 아무도 알려주지 않습니다.
+the Nat이 알려줄 수도 있습니다.
+변수의 타입이 알려줄 수도 있습니다.
+함수의 인수 타입이 알려줄 수도 있습니다.
+이번에는 guessAttempts의 타입이 알려준 것입니다. -> guessAttempts : (target: Nat) -> (guesses: Nat) -> IO ()
+
 if then else ->
   ㄴ if then do //재귀는 "계속해야 하는 경우"에만 한다.
         else
