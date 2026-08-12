@@ -27,6 +27,8 @@ Main> zipWith (::) x1 empty1
 
 함수 -> 값을 받아 계산하고 값을 반환
 예: maybeAdd, cast, parsePrefix
+
+잊어버려도 괜찮습니다. 다음에 또 Just x를 보고 "이게 왜 여기서 나왔지?" 하시면, 오늘의 "풀어서 쓰고, 계산하고, 다시 포장한다"로 돌아오시면 됩니다.
 -}
 
 {-chatGPT
