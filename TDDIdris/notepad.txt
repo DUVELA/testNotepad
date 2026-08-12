@@ -15,6 +15,20 @@ Main> empty1
 Main> zipWith (::) x1 empty1
 [[3], [4]]
 
+{- ChatGPT 2026-08-12
+그래서 지금 단계에서는 이 네 가지를 머릿속에 두시면 좋습니다.
+타입 -> 값이 어떤 종류인지 설명
+
+타입 생성자 -> 타입을 받아 새로운 타입을 만듦
+예: Maybe, Vect
+
+데이터 생성자 -> 특정 타입의 값을 만듦
+예: Just, Nothing, SString, SInt
+
+함수 -> 값을 받아 계산하고 값을 반환
+예: maybeAdd, cast, parsePrefix
+-}
+
 {-chatGPT
 vectTake : (m : Nat) -> Vect (n + m) a -> Vect m a
 와
