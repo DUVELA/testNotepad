@@ -2,7 +2,7 @@ module Main
 import System.REPL
 import Data.Vect
 import Data.String
--- 6.3.1 까지만 했다.
+
 export infixr 5 .+.
 data Schema = SString
             | SInt
@@ -19,8 +19,9 @@ data Command : Schema -> Type where
      SetSchema : (newschema : Schema) -> Command schema
      Add : SchemaType schema -> Command schema
      Get : Integer -> Command schema
+     GetAll : Command schema
      Quit : Command schema
-
+ 
 record DataStore where
        constructor MkData
        schema : Schema
@@ -59,7 +60,7 @@ parsePrefix SString input = getQuoted (unpack input)
 parsePrefix SInt input = case span isDigit input of
                               ("", rest) => Nothing
                               (num, rest) => Just (cast num, ltrim rest)
-parsePrefix SChar input = case unpack input of -- #1
+parsePrefix SChar input = case unpack input of
                                [] => Nothing
                                h :: rest => Just (h, ltrim (pack rest))
 parsePrefix (schemal .+. schemar) input = case parsePrefix schemal input of 
@@ -100,6 +101,8 @@ parseCommand schema "schema" rest = parseSchema (words rest) >>= \schemaok =>
 parseCommand schema "add" rest = case parseBySchema schema rest of
                                       Nothing => Nothing
                                       Just restok => Just (Add restok)
+
+parseCommand schema "get" "" = Just (GetAll)
 parseCommand schema "get" val = case all isDigit (unpack val) of
                                      False => Nothing
                                      True => Just (Get (cast val))
@@ -115,6 +118,12 @@ parse : (schema : Schema) -> (input: String) -> Maybe(Command schema)
 parse schema input = case span (/= ' ') input of 
                           (cmd, args) => parseCommand schema cmd (ltrim args)
 
+ddt : DataStore -> Nat -> String -- #2
+ddt (MkData schema 0 []) k = ""
+ddt (MkData schema (S len) (x :: xs)) k = 
+    show (k) ++ ": " ++ display x ++ "\n"
+    ++ ddt (MkData schema len xs) (S k)
+
 processInput : DataStore -> String -> Maybe (String, DataStore)
 processInput store input = case parse (schema store) input of
                                 Nothing => Just ("Invalid command\n", store)
@@ -123,8 +132,20 @@ processInput store input = case parse (schema store) input of
                                                                  Nothing => Just ("Can't update schema\n", store)
                                                                  Just store' => Just ("OK\n", store')
                                 Just (Get pos) => getEntry pos store
+                                Just (GetAll) => Just(ddt store 0, store)
                                 Just Quit => Nothing
+maybeddt : Maybe Int -> Maybe Int -> Maybe Int
+maybeddt mx my = mx >>= \x_val => 
+                 my >>= \y_val => 
+                 Just (x_val + y_val)
 
+maybeAdd : Maybe Int -> Maybe Int -> Maybe Int
+maybeAdd mx my = do x_val <- mx
+                    y_val <- my
+                    Just (x_val + y_val)
+
+main : IO ()
+main = replWith (MkData (SString .+. SString .+. SInt) _ []) "Command: " processInput
 {-
 #1 
 Char를 위해 search를 해봄.
@@ -132,5 +153,11 @@ Main> :search String-> Char
 prim__strHead : String -> Char
 copilot에 Char가 어디에 들어가는 게 순서상 좋을지 물어보니 SChar란 이름과 Schema 부터 display 등에 넣을 것을 추천함. 순서는 SInt 다음.
 
-- 다음은 두 번째 get만 했을 때 전체 내용이 나오도록 하기.
+- 다음은 두 번째 get만 했을 때 전체 내용이 나오도록 하기. (o) 2026-08-19
+#2 ddt는 GetAll을 위해서. 
+>이건 그냥 코드를 외운 게 아니라 "DataStore 안에 실제로 뭐가 들어 있고, 그것을 어떤 구조로 꺼내 볼 수 있는가"를 Idris에게 물어본 것입니다.
+>그리고 아주 중요한 에러도 하나 제대로 만났습니다.
+0부터 1씩 커지는 걸 하기 위해서 Nat Type인 k를 넣어주고 processInput에서 Just (GetAll) => Just(ddt store 0, store) 로 써줬다.
+
+세 번째 업데이트는...
 -}
