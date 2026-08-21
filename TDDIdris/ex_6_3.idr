@@ -60,47 +60,39 @@ parsePrefix SString input = getQuoted (unpack input)
 parsePrefix SInt input = case span isDigit input of
                               ("", rest) => Nothing
                               (num, rest) => Just (cast num, ltrim rest)
-parsePrefix SChar input = case unpack input of
+parsePrefix SChar input = case unpack input of -- #1
                                [] => Nothing
                                h :: rest => Just (h, ltrim (pack rest))
-parsePrefix (schemal .+. schemar) input = case parsePrefix schemal input of 
-                                               Nothing => Nothing
-                                               Just (l_val, input') => 
-                                                case parsePrefix schemar input' of
-                                                     Nothing => Nothing
-                                                     Just (r_val, input'') => 
-                                                          Just((l_val, r_val), input'')
+parsePrefix (schemal .+. schemar) input = do (l_val, input') <- parsePrefix schemal input
+                                             (r_val, input'') <- parsePrefix schemar input'
+                                             Just((l_val, r_val), input'')
 
-parseBySchema : (schema : Schema) -> String -> Maybe (SchemaType schema)
-parseBySchema schema input = case parsePrefix schema input of
-                                  Just (res, "") => Just res
-                                  Just _ => Nothing
-                                  Nothing => Nothing
+parseBySchema : (schema : Schema) -> String -> Maybe (SchemaType schema) 
+parseBySchema schema input = do (res, rest) <- parsePrefix schema input -- #3
+                                case rest of
+                                     "" => Just res
+                                     _ => Nothing
 
 parseSchema : List String -> Maybe Schema
 parseSchema ("String" :: xs) = case xs of 
                                     [] => Just SString
-                                    _ => case parseSchema xs of
-                                              Nothing => Nothing
-                                              Just xs_sch => Just (SString .+. xs_sch)
+                                    _ =>  do xs_sch <- parseSchema xs
+                                             Just (SString .+. xs_sch)
 parseSchema ("Int" :: xs) = case xs of
                                  [] => Just SInt
-                                 _ => case parseSchema xs of
-                                           Nothing => Nothing
-                                           Just xs_sch => Just (SInt .+. xs_sch)
+                                 _ => do xs_sch <- parseSchema xs
+                                         Just (SInt .+. xs_sch)
 parseSchema ("Char" :: xs) = case xs of 
                                   [] => Just SChar
-                                  _ => case parseSchema xs of
-                                            Nothing => Nothing
-                                            Just xs_sch => Just (SChar .+. xs_sch)
+                                  _ => do xs_sch <- parseSchema xs
+                                          Just (SChar .+. xs_sch)
 parseSchema _ = Nothing
 
 parseCommand : (schema : Schema) -> String -> String -> Maybe (Command schema)
-parseCommand schema "schema" rest = parseSchema (words rest) >>= \schemaok =>
+parseCommand schema "schema" rest = do schemaok <- parseSchema (words rest)
                                        Just (SetSchema schemaok)
-parseCommand schema "add" rest = case parseBySchema schema rest of
-                                      Nothing => Nothing
-                                      Just restok => Just (Add restok)
+parseCommand schema "add" rest = do restok <- parseBySchema schema rest
+                                    Just (Add restok)
 
 parseCommand schema "get" "" = Just (GetAll)
 parseCommand schema "get" val = case all isDigit (unpack val) of
@@ -134,15 +126,6 @@ processInput store input = case parse (schema store) input of
                                 Just (Get pos) => getEntry pos store
                                 Just (GetAll) => Just(ddt store 0, store)
                                 Just Quit => Nothing
-maybeddt : Maybe Int -> Maybe Int -> Maybe Int
-maybeddt mx my = mx >>= \x_val => 
-                 my >>= \y_val => 
-                 Just (x_val + y_val)
-
-maybeAdd : Maybe Int -> Maybe Int -> Maybe Int
-maybeAdd mx my = do x_val <- mx
-                    y_val <- my
-                    Just (x_val + y_val)
 
 main : IO ()
 main = replWith (MkData (SString .+. SString .+. SInt) _ []) "Command: " processInput
@@ -159,5 +142,8 @@ copilot에 Char가 어디에 들어가는 게 순서상 좋을지 물어보니 S
 >그리고 아주 중요한 에러도 하나 제대로 만났습니다.
 0부터 1씩 커지는 걸 하기 위해서 Nat Type인 k를 넣어주고 processInput에서 Just (GetAll) => Just(ddt store 0, store) 로 써줬다.
 
-세 번째 업데이트는...
+#3 
+왜냐하면 마지막의 ""라는 특정 값에 대한 패턴 매칭이 필요하기 때문입니다.
+do에서 패턴을 쓸 수도 있지만, 지금 단계에서는 오히려 복잡해질 수 있습니다.
+do를 억지로 쓰려고 하기보다는, ~에서 중첩 case를 실제로 줄일 수 있는 부분만 바꾼다고 생각하시면 편합니다.
 -}
