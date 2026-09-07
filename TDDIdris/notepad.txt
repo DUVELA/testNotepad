@@ -91,7 +91,9 @@ A minimal definition includes either `(==)` or `(/=)`.
 "최소한 둘 중 하나만 구현하면 Eq 구현으로 인정한다."
 이 문장이 이제 조금 더 의미 있게 보일 겁니다.
 #7.1.3End 
+
 #7.2.2Start
+ 9s 동안 처리함 이 있었다.
 Main> the (Expr _) (6 + 3 * 12)
 Error: Can't find an implementation for Num (Expr ?_).
 Expr ?
