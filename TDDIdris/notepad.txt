@@ -91,4 +91,19 @@ A minimal definition includes either `(==)` or `(/=)`.
 "최소한 둘 중 하나만 구현하면 Eq 구현으로 인정한다."
 이 문장이 이제 조금 더 의미 있게 보일 겁니다.
 #7.1.3 
+#7.2.2.
+Main> the (Expr _) (6 + 3 * 12)
+Error: Can't find an implementation for Num (Expr ?_).
+Expr ?
+     ↑
+     'num이 무엇인지 추론해 주세요'
+
+Expr num에 숫자 연산을 적용하려면 Num (Expr num)이 필요한데, 아직 num이 어떤 타입인지 결정되지 않아서 그 구현을 찾을 수 없다.
+그리고 이건 코드가 잘못됐다기보다는 책의 Idris 버전과 현재 Idris2의 타입 추론/숫자 기본값 처리 차이까지 걸려 있는 부분으로 보는 게 좋습니다.
+
+Main> the (Expr Double) (6 + 3 * 12)
+Add (Val 6.0) (Mul (Val 3.0) (Val 12.0))
+Main> eval (the (Expr Integer) (6 + 3 * 12))
+42
+#7.2.2.
 -}
