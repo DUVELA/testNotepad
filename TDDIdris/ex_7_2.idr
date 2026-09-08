@@ -23,6 +23,12 @@ eval (Mul x y) = eval x * eval y
 eval (Div x y) = eval x `div` eval y
 eval (Abs x) = abs (eval x)
 
+(Eq num, Abs num, Neg num, Integral num) => Eq (Expr num) where
+   (==) num1 num2 = eval num1 == eval num2
+
+(Abs num, Neg num, Integral num) => Cast (Expr num) num where
+   cast = eval
+
 (Show num) => Show (Expr num) where
       show (Val num1) = show num1
       show (Add num1 num2) = "(" ++ show num1 ++ " + " ++ show num2 ++ ")"
