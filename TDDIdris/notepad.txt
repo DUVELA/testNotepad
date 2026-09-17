@@ -170,4 +170,28 @@ Foldable Expr은 만들어 놓았다. 그런데 map을 테스트했으니 Functo
 따라서 지금은 오히려 아주 좋은 상태입니다.
 다음 단계는 Functor Expr where를 만들어 map (*2)가 왜 책의 결과처럼 나오는지 직접 구현해보는 것입니다.
 #ex_7_3End
+#8.1Start
+오늘의 한 문장
+
+오늘 내용을 하나로 묶으면:
+
+Equality를 Bool의 결과가 아니라 Type과 그 증거로 표현하면, Idris가 그 equality를 이용해서 이후의 타입까지 구체적으로 좁힐 수 있다.
+
+그리고 오늘 직접 경험하신 흐름은:
+
+Equality 타입
+    ↓
+생성자(Same / Refl)
+    ↓
+equality 증거
+    ↓
+case-split
+    ↓
+인덱스가 정제됨
+    ↓
+Hole의 필요한 타입이 더 구체적으로 변함
+    ↓
+proof search / Refl / Same이 맞는지 판단
+입니다.
+#8.1End
 -}
