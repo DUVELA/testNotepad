@@ -308,5 +308,37 @@ x :: xs
 │    │
 └────┴── infix 형태
 둘은 같은 것을 표현합니다.
+
+Equality
+   │
+   ├─ x = y
+   │    └─ Refl 같은 proof가 존재
+   │
+   ├─ cong
+   │    └─ equality proof를 다른 equality로 확장
+   │
+   ├─ Dependent Type
+   │    └─ 값에 따라 Type이 달라짐
+   │
+   ├─ rewrite
+   │    └─ equality proof로 Type의 표현을 연결
+   │
+   ├─ Void
+   │    └─ 불가능함을 표현
+   │
+   └─ Dec
+        ├─ Yes proof
+        └─ No contra
+
+이제는 :t뿐 아니라 :printdef까지 이용해서
+“이 함수가 실제로 무엇을 입력으로 요구하지?”
+를 확인할 수 있게 된 셈입니다.
+       equality proof
+                     │
+          ┌──────────┼──────────┐
+          ↓          ↓          ↓
+        cong        sym       rewrite
+          │          │          │
+       확장하기     방향 뒤집기   타입 연결하기
 #8.3.3End
 -}
