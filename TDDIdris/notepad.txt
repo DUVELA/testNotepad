@@ -341,4 +341,19 @@ Equality
           │          │          │
        확장하기     방향 뒤집기   타입 연결하기
 #8.3.3End
+#9.1.3start
+removeElem {n = Z} value (y :: []) (There later) = absurd later의 absurd에 대해 readthedocs내용을 가지고한 질문에 대해.
+2. 가져오신 수정 사항은 무엇을 해결하는가?
+적어 주신 수정 내용은 주로 다음을 다룹니다.
+- 필요한 모듈을 import합니다.
+- n, letters, guesses 같은 암시적 인자를 함수 타입에 명시해서, 정의 안에서 패턴 매칭하거나 사용하도록 합니다.
+- removeElem의 멤버십 증명을 명시적 인자에서 {auto prf : Elem value xs}로 바꾸어 호출 시 증명을 자동으로 찾도록 합니다.
+하지만 Uninhabited (Elem value [])의 구현을 추가한다는 내용은 없습니다. import는 이미 정의된 이름이나 구현을 가져오는 것이지, 없는 증명을 새로 만들어 주는 것은 아닙니다.
+3. 그럼 어떻게 처리하면 좋을까요?
+우선 현재 코드의 불가능한 분기를 absurd로 처리하는 대신, Idris에게 그 분기 자체가 불가능하다고 표시하는 방법을 시도할 수 있습니다.
+removeElem {n = Z} value (y :: []) (There later) impossible
+
+이 문법은 해당 패턴에 해당하는 값이 존재할 수 없다고 선언하는 것입니다. Idris2가 이 분기를 불가능하다고 확인할 수 있다면 별도의 Uninhabited 구현 없이도 처리할 수 있습니다.
+만약 이 방식도 실패한다면 오류 메시지를 확인한 뒤, Uninhabited (Elem value []) 구현을 직접 제공할지 검토하면 됩니다.
+#9.1.3end
 -}
