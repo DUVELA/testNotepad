@@ -378,4 +378,29 @@ No는 단순히 “값이 서로 다르다”는 뜻이 아닙니다. Elem value
 여기서 하신 판단도 좋습니다.
 특히 두 번째 판단은 단순히 문법을 몰라서 멈춘 것이 아니라, 어떤 정보가 있어야 다음 결정을 내릴 수 있는지 알아차리신 것입니다.
 #9.1.5end
+#ex_9.1start
+Last를 value와 같은 값이 중간 이후로 안 나오면 거기가 Last 인줄 알았는데 [value] 상태일 때 LastOne이였다.
+Main> isLast [3, 1, 2, 4, 6,3] 3
+Yes (LastCons (LastCons (LastCons (LastCons (LastCons LastOne)))))
+값이 다른데 구현이 어떻게 되나? 생각 했는데 뭐 이미 따라하면서 만들어진 코드였고,
+isLast [] value 와 Last [] value는 다르다 그래서 impossible 을 사용 할 수 이유?
+--ChatGPT
+오늘 한 줄 요약
+Last는 "마지막 원소가 value라는 증명"이고, isLast는 그 증명이 존재하는지를 Dec로 결정하는 함수이며, No에서는 가상의 증명을 받아 Void를 만들어 모순을 증명합니다.
+
+이번 문제에서 해보신 것들을 보면:
+- Last가 무엇을 증명하는지 확인
+- LastOne과 LastCons의 타입 확인
+- Yes Refl이 value를 y로 정제한다는 것 확인
+- 왜 isLast ys value가 아니라 isLast ys y인지 확인
+- LastCons prf가 재귀 증명을 바깥 리스트의 증명으로 만드는 것 확인
+- 앞쪽에 value가 여러 번 나와도 상관없다는 것 확인
+- [3,3,2] 3은 No, [3,3,2,3] 3은 Yes라는 것을 REPL로 확인
+- _ 대신 z :: zs로 패턴을 구체화해서 coverage 문제 해결
+- No가 prop -> Void라는 것 확인
+- Last [] value가 불가능하다는 것을 isLast_rhs_0으로 직접 증명
+- impossible을 함수 전체에 붙이는 것과 불가능한 생성자 패턴에 붙이는 것의 차이 확인
+- 최종적으로 실제 isLast가 REPL에서 Yes/No를 내는 것까지 확인
+하셨습니다.
+#ex_9.1end
 -}
