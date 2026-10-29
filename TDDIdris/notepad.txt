@@ -441,13 +441,6 @@ I really did make this mistake when writing this example!
 #9.2.3 Hangman.idr end
 
 #10.1.5 start
-디아블로 II: 레저렉션 악마술사의 군림 - ₩29,900 (정가)
-디아블로 III: 이터널 컬렉션 - ₩25,000 (50%할인가)
-스타크래프트® II: 캠페인 컬렉션 - ₩27,000 (25%할인가) 5렙 버그 걸려서 협동전, 캠페인 못하는 중 2026-10-21
-워크래프트 III: 리포지드 - ₩18,000
-스타크래프트®: 리마스터 - ₩8,250
-디아블로® II: 레저렉션™ - ₩15,840
-
 지금 코드를 기준으로, 기억이 흐려지기 쉬운 부분 두 군데를 다시 살펴보겠습니다.
 1. 왜 rhs_2가 SplitOne이었을까요?
 splitListHelp (_ :: _ :: counter) (item :: items)
