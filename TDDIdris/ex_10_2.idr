@@ -1,0 +1,36 @@
+import Data.List.Views
+import Data.List
+
+equalSuffix : Eq a => List a -> List a -> List a
+equalSuffix fst snd with (snocList fst, snocList snd)
+  equalSuffix _ _ | (Snoc x xs xsrec, Snoc y ys ysrec) = 
+   if x == y
+      then snoc (equalSuffix _ _ | (xsrec, ysrec) ) x
+      else []
+  equalSuffix _ _ | (Empty, s) = []
+  equalSuffix _ _ | (s, Empty) = []
+
+{- 
+Main> equalSuffix [] []
+Error: Can't find an implementation for Eq ?a.
+
+(Interactive):1:1--1:18
+ 1 | equalSuffix [] []
+List [] 에 대한 a. Ttype을 알 수 없어서 나는 에러라고 한다.
+ChatGPT가 알려준 대로 한 확인
+Main> :let duv = the (List Int) []
+Main> :let ddt = the (List Int) []
+Main> equalSuffix ddt duv
+[]
+또는
+Main> equalSuffix (the (List Int) []) []
+[]
+아니면
+Main> equalSuffix {a = Int} [] []
+[]
+Idris2는 현재처럼 두 View를 튜플로 묶어 하나의 with에 전달하고, 그 with 블록을 통해 재귀 호출하는 구조에서 감소 관계를 확인하지 못한 것입니다.
+
+이 점은 앞서 mergeSort에서 공부했던 SplitRec와 연결됩니다. 재귀적 View를 사용한다고 해서 모든 형태의 with 재귀를 Totality Checker가 자동으로 인정하는 것은 아닙니다.
+- Eq ?a: 빈 리스트만으로는 원소 타입을 추론할 수 없어서 생기는 타입 추론 문제입니다.
+- possibly not terminating: 재귀 호출이 작아진다는 사실을 Totality Checker가 확인하지 못해서 생기는 문제입니다.
+-}
