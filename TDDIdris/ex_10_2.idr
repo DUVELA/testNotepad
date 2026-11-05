@@ -82,4 +82,6 @@ package chapter10
 
 sourcedir = "."
 depends = contrib
+다른 방법 msys는 alias 를 이용하기 'idris2 -p contrib'
+windows는 Windows 10의 doskey 사용.
 -}
