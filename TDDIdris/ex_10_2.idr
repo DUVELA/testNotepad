@@ -2,6 +2,8 @@ import Data.List
 import Data.List.Views
 import Data.List.Views.Extra
 import Data.Nat.Views
+import Data.Vect
+import Data.Vect.Views
 
 equalSuffix : Eq a => List a -> List a -> List a
 equalSuffix fst snd with (snocList fst, snocList snd)
@@ -11,6 +13,12 @@ equalSuffix fst snd with (snocList fst, snocList snd)
       else []
   equalSuffix _ _ | (Empty, s) = []
   equalSuffix _ _ | (s, Empty) = []
+
+mergeSort : Ord a => {n: Nat} -> Vect n a -> Vect n a
+mergeSort input with (splitRec input)
+  mergeSort [] | SplitRecNil = []
+  mergeSort [x] | SplitRecOne = [x]
+  mergeSort _ | (SplitRecPair {xs} {ys} lrec rrec) = merge (mergeSort xs) (mergeSort ys)
 
 toBinary : Nat -> String
 toBinary k with (halfRec k)
@@ -84,4 +92,9 @@ sourcedir = "."
 depends = contrib
 다른 방법 msys는 alias 를 이용하기 'idris2 -p contrib'
 windows는 Windows 10의 doskey 사용.
+
+ChatGpt의 mergeSort 대화
+Vector에서는 우선 다음처럼 원래 입력 벡터의 패턴을 _로 두고, 생성자 안의 암시적 인덱스를 바인딩하는 방법을 시도해 보세요.
+mergeSort _ | (SplitRecPair {xs} {ys} lrec rrec) =
+  ?xs_rhs_2
 -}
