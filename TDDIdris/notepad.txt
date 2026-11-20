@@ -577,6 +577,14 @@ take : Nat -> List a -> List a
 take 0 xs = []
 take (S k) [] = []
 take (S k) (x :: xs) = x :: take k xs
-
 #11.1.5end
+
+#11.1.6start
+기억하신 문장을 조금 다듬으면 다음과 같습니다.
+Total은 유한한 계산이 종료됨을 보장하고, Productive는 무한한 데이터를 생성하더라도 매 단계에서 유한한 시간 안에 다음 데이터를 제공함을 보장한다.
+
+그리고 오늘 가장 중요한 부분은 이것입니다.
+Idris에서 View를 case-split하면 단순히 새로운 변수만 얻는 것이 아니라, 생성자가 가진 타입 정보를 이용해 원래 입력의 구조까지 구체화할 수 있습니다.
+이것이 dependent pattern matching의 중요한 특징입니다.
+#11.1.6end
 -}
