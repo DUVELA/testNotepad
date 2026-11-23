@@ -587,4 +587,10 @@ Total은 유한한 계산이 종료됨을 보장하고, Productive는 무한한 
 Idris에서 View를 case-split하면 단순히 새로운 변수만 얻는 것이 아니라, 생성자가 가진 타입 정보를 이용해 원래 입력의 구조까지 구체화할 수 있습니다.
 이것이 dependent pattern matching의 중요한 특징입니다.
 #11.1.6end
+
+#ex_11_1start
+지금 생각하신 순서가 좋습니다.
+즉, 지금은 InfList에 Functor를 구현하는 것이 맞습니다.
+
+#ex_11_1end
 -}
