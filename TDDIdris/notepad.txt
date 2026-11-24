@@ -592,5 +592,10 @@ Idris에서 View를 case-split하면 단순히 새로운 변수만 얻는 것이
 지금 생각하신 순서가 좋습니다.
 즉, 지금은 InfList에 Functor를 구현하는 것이 맞습니다.
 
+3번 문제에서 chatGPT - mod 방식은 나머지만 필요할 때 간결하고, divides 방식은 몫과 나머지, 그리고 나머지의 범위에 관한 증명까지 필요할 때 유용합니다.
+divides view 를 이용하면 
+	-div 몫
+	-rem 나머지
+	-prf 범위 증명
 #ex_11_1end
 -}
