@@ -21,4 +21,32 @@ coinFlips : (count : Nat) -> Stream Int -> List Face
 coinFlips 0 _ = []
 coinFlips (S k) (x :: xs) = getFace x :: coinFlips k xs
 
-{
+
+square_root_approx : (number : Double) -> (approx : Double) -> Stream Double
+square_root_approx number approx = approx :: square_root_approx number next
+   where
+      next : Double
+      next = (approx + (number / approx)) / 2
+
+{-
+square_root_approx 감을 못 잡아서.감도 그렇지만
+view를 쓴다면? 재귀를 돌기 더 편하지 않을까? 그런데 적절한 건? <- 모름.
+그럼 next 공식을 그대로 쓰나? <- 어떻게?
+재귀로 next가 들어간다면 ?? :: square_root_approx number next 이건가? <- 그렇겠지? number 위치가 바뀐다면 기준이 사라지는 걸테니깐?
+next 식을 그냥 쓰면 불편하게 느껴진다 그럼 어떻게? let이나 where를 쓰자.
+그걸 어떻게?
+Arith.idr에 where 방식이 있다.
+
+arithInputs : Int -> Stream Int
+arithInputs seed = map bound (randoms seed)
+   where
+      bound : Int -> Int
+      bound num with (divides num 12)
+        bound ((12 * div) + rem) | (DivBy div rem prf) = rem + 1
+
+square_root_approx : (number : Double) -> (approx : Double) -> Stream Double
+square_root_approx number approx = next :: square_root_approx number next
+   where
+      next : Double
+      next = (approx + (number / approx)) / 2
+-}
