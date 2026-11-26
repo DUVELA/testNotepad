@@ -28,6 +28,16 @@ square_root_approx number approx = approx :: square_root_approx number next
       next : Double
       next = (approx + (number / approx)) / 2
 
+square_root_bound 0 number bound (approx :: approxs) = approx
+square_root_bound (S k) number bound (approx :: approxs) = 
+   if abs (approx * approx - number) > bound then -- bound로 근사값을 사용하지 않았다고 해서 추가
+      square_root_bound k number bound approxs
+   else approx
+
+square_root : (number : Double) -> Double
+square_root number = square_root_bound 100 number 0.00000000001
+                                 (square_root_approx number number)
+
 {-
 square_root_approx 감을 못 잡아서.감도 그렇지만
 view를 쓴다면? 재귀를 돌기 더 편하지 않을까? 그런데 적절한 건? <- 모름.
